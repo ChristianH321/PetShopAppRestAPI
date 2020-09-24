@@ -16,6 +16,7 @@ namespace PetShop.Core.ApplicationService
         List<Entities.Type> GetTypes();
         Entities.Type NewType(string typetype);
         Entities.Type UpdateType(Entities.Type typeUpdate);
+        Entities.Type FindTypeById(int id);
 
 
 

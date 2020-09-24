@@ -21,38 +21,103 @@ namespace PetShopAppWebApi.Controllers
         {
             _typeService = typeService;
         }
-  
-        // GET: api/<TypeController>
+
+
+        // GET: api/<TypeControllerr>
         [HttpGet]
-        public IEnumerable<PetShop.Core.Entities.Type> Get()
+        public ActionResult<IEnumerable<PetShop.Core.Entities.Type>> Get()
         {
-            return _typeService.GetTypes();
+            try
+            {
+                if (_typeService.GetType() != null)
+                {
+                    return Ok(_typeService.GetType());
+                }
+                return NotFound();
+            }
+            catch (System.Exception)
+            {
+                return StatusCode(500, "Error when looking for list of pet types");
+            }
         }
 
-        // GET api/<TypeController>/5
+        // GET api/<TypeControllerr>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public ActionResult<PetShop.Core.Entities.Type> Get(int id)
         {
-            return "None";
-            //return _typeService.GetType(id);
+            try
+            {
+                if (id < 1)
+                {
+                    return BadRequest("Id must be greater than 0");
+                }
+                else if (_typeService.FindTypeById(id) == null)
+                {
+                    return NotFound();
+                }
+                else return _typeService.FindTypeById(id);
+            }
+            catch (System.Exception)
+            {
+                return StatusCode(500, "Error when looking for a pet type by ID");
+            }
         }
 
-        // POST api/<TypeController>
+        // POST api/<TypeControllerr>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public ActionResult<PetShop.Core.Entities.Type> Post([FromBody] PetShop.Core.Entities.Type typeType)
         {
+            try
+            {
+                if (string.IsNullOrEmpty(typeType.TypeType))
+                {
+                    BadRequest("Type Error! Check Type field.");
+                }
+                _typeService.CreateType(typeType);
+                return StatusCode(202, "Pet Type is created.");
+            }
+            catch (System.Exception)
+            {
+                return StatusCode(500, "Error when creating pet type");
+            }
         }
 
-        // PUT api/<TypeController>/5
+        // PUT api/<TypeControllerr>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public ActionResult<PetShop.Core.Entities.Type> Put(int id, [FromBody] PetShop.Core.Entities.Type typeType)
         {
+            try
+            {
+                if (typeType.ID != id || id < 0)
+                {
+                    return BadRequest("ID Error! Please check id");
+                }
+                _typeService.UpdateType(typeType);
+                return StatusCode(200, "Yes Sir! Pet type is updated.");
+            }
+            catch (System.Exception)
+            {
+                return StatusCode(500, "Error when updating pet type");
+            }
         }
 
-        // DELETE api/<TypeController>/5
+        // DELETE api/<TypeControllerr>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public ActionResult<PetShop.Core.Entities.Type> Delete(int id)
         {
+            try
+            {
+                var typeToDelete = _typeService.DeleteType(id);
+                if (typeToDelete == null)
+                {
+                    return NotFound();
+                }
+                return Accepted(typeToDelete);
+            }
+            catch (System.Exception)
+            {
+                return StatusCode(500, "Error when deleting pet type");
+            }
         }
     }
 }

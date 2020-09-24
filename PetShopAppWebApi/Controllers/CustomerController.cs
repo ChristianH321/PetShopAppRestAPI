@@ -19,38 +19,116 @@ namespace PetShopAppWebApi.Controllers
         {
             _customerService = customerService;
         }
-    
+
         // GET: api/<CustomerController>
         [HttpGet]
-        public List<Customer> Get()
+        public ActionResult<IEnumerable<Customer>> Get()
         {
-            return _customerService.GetCustomer();
+            try
+            {
+                if (_customerService.GetCustomer() != null)
+                {
+                    return Ok(_customerService.GetCustomer());
+                }
+                return NotFound();
+            }
+            catch (System.Exception)
+            {
+                return StatusCode(500, "Error when looking for list of owners");
+            }
         }
+
 
         // GET api/<CustomerController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public ActionResult<Customer> Get(int id)
         {
-            return "None";
-            //return _customerService.FindCustomerById(id);
+            try
+            {
+                if (id < 1)
+                {
+                    return BadRequest("Id must be greater than 0");
+                }
+                else if (_customerService.FindCustomerById(id) == null)
+                {
+                    return NotFound();
+                }
+                else return _customerService.FindCustomerById(id);
+            }
+            catch (System.Exception)
+            {
+                return StatusCode(500, "Error when looking for a owner by ID");
+            }
         }
 
         // POST api/<CustomerController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public ActionResult<Customer> Post([FromBody] Customer customer)
         {
+            try
+            {
+                if (string.IsNullOrEmpty(customer.FirstName))
+                {
+                    return BadRequest("First Name Error! Check FirstName field.");
+                }
+                if (string.IsNullOrEmpty(customer.LastName))
+                {
+                    return BadRequest("Last Name Error! Check SecondName field.");
+                }
+                if (string.IsNullOrEmpty(customer.BirthDateOfCustomer.ToString()))
+                {
+                    return BadRequest("Birthdate Error! Check birthdate field.");
+                }
+                if (string.IsNullOrEmpty(customer.Adress))
+                {
+                    return BadRequest("Adress Error! Check Adress field");
+                }
+
+                _customerService.CreateCustomer(customer);
+                return StatusCode(201, "Owner is created.");
+            }
+            catch (System.Exception)
+            {
+                return StatusCode(500, "Error when creating owner");
+            }
         }
 
         // PUT api/<CustomerController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public ActionResult<Customer> Put(int id, [FromBody] Customer customer)
         {
+            try
+            {
+                if (customer.ID != id || id < 0)
+                {
+                    return BadRequest("ID Error! Please check id");
+                }
+                _customerService.UpdateCustomer(customer);
+                return StatusCode(200, "Yes Sir! Owner is updated.");
+            }
+            catch (System.Exception)
+            {
+                return StatusCode(500, "Error when updating owner");
+            }
         }
 
-        // DELETE api/<CustomerController>/5
+        // DELETE api/< CustomerController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public ActionResult<Customer> Delete(int id)
         {
+            try
+            {
+                var customerToDelete = _customerService.DeleteCustomer(id);
+                if (customerToDelete == null)
+                {
+                    return NotFound();
+                }
+                return Accepted(customerToDelete);
+            }
+            catch (System.Exception)
+            {
+                return StatusCode(500, "Error when deleting owner");
+            }
         }
     }
 }

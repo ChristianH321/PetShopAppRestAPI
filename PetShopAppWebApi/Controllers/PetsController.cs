@@ -20,36 +20,123 @@ namespace PetShopAppWebApi.Controllers
         {
             _petService = petService;
         }
-        // GET: api/<PetsController>
+
+
+        // GET: api/<PetController>
         [HttpGet]
-        public IEnumerable<Pet> Get()
+        public ActionResult<IEnumerable<Pet>> Get()
         {
-            return _petService.GetPets();
+            try
+            {
+                if (_petService.GetPets() != null)
+                {
+                    return Ok(_petService.GetPets());
+                }
+                return NotFound();
+            }
+            catch (System.Exception)
+            {
+                return StatusCode(500, "Error when looking for list of pets");
+            }
         }
 
-        // GET api/<PetsController>/5
+        // GET api/<PetController>/5
         [HttpGet("{id}")]
-        public Pet Get(int id)
+        public ActionResult<Pet> Get(int id)
         {
-            return _petService.FindPetById(id);
+            try
+            {
+                if (id < 1)
+                {
+                    return BadRequest("Id must be greater than 0");
+                }
+                else if (_petService.FindPetById(id) == null)
+                {
+                    return NotFound();
+                }
+                else return _petService.FindPetById(id);
+            }
+            catch (System.Exception)
+            {
+                return StatusCode(500, "Error when looking for a pet by ID");
+            }
         }
 
-        // POST api/<PetsController>
+        // POST api/<PetController>
         [HttpPost]
-        public void Post([FromBody] Pet pet)
+        public ActionResult<Pet> Post([FromBody] Pet pet)
         {
+            try
+            {
+                if (string.IsNullOrEmpty(pet.Name))
+                {
+                    return BadRequest("Error in Name Field. Check Name Field");
+                }
+                if (string.IsNullOrEmpty(pet.Color))
+                {
+                    return BadRequest("Error in Color Field. Check Color Field");
+                }
+                if (pet.Price <= 0 || pet.Price.Equals(null))
+                {
+                    return BadRequest("Error in Price Field. Check Price Field");
+                }
+                if (string.IsNullOrEmpty(pet.BirthDate.ToString()))
+                {
+                    return BadRequest("Error in birthdate Field. Check birthdate Field");
+                }
+                if (string.IsNullOrEmpty(pet.SoldDate.ToString()))
+                {
+                    return BadRequest("Error in solddate Field. Check solddate Field");
+                }
+                if (string.IsNullOrEmpty(pet.PreviousOwner))
+                {
+                    return BadRequest("Error in previous owner Field. Check previous owner Field");
+                }
+                _petService.CreatePet(pet);
+                return StatusCode(201, $"Pet {pet.Name} created");
+            }
+            catch (System.Exception)
+            {
+                return StatusCode(500, "Error when creating pet");
+            }
         }
 
-        // PUT api/<PetsController>/5
+        // PUT api/<PetController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public ActionResult<Pet> Put(int id, [FromBody] Pet pet)
         {
+            try
+            {
+                if (pet.ID != id || id < 0)
+                {
+                    return BadRequest("ID Error! Please check id");
+                }
+                _petService.UpdatePet(pet);
+                return StatusCode(200, "Yes Sir! Pet is updated.");
+            }
+            catch (System.Exception)
+            {
+                return StatusCode(500, "Error when updating pet");
+            }
         }
 
-        // DELETE api/<PetsController>/5
+        // DELETE api/<PetController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public ActionResult<Pet> Delete(int id)
         {
+            try
+            {
+                var petToDelete = _petService.DeletePet(id);
+                if (petToDelete == null)
+                {
+                    return NotFound();
+                }
+                return Accepted(petToDelete);
+            }
+            catch (System.Exception)
+            {
+                return StatusCode(500, "Error when deleting pet");
+            }
         }
     }
 }

@@ -13,6 +13,7 @@ namespace PetShop.Core.ApplicationService
         void InitDatabaseDataCustomer();
         Customer NewCustomer(string firstName, string lastName, DateTime birthDateOfCustomer, string adress);
         Customer UpdateCustomer(Customer customerUpdate);
+        Customer FindCustomerById(int id);
 
     }
 }
