@@ -34,7 +34,7 @@ namespace PetShopAppWebApi.Controllers
             }
             catch (System.Exception)
             {
-                return StatusCode(500, "Error when looking for list of owners");
+                return StatusCode(500, "Error when looking for list of customer");
             }
         }
 
@@ -57,7 +57,7 @@ namespace PetShopAppWebApi.Controllers
             }
             catch (System.Exception)
             {
-                return StatusCode(500, "Error when looking for a owner by ID");
+                return StatusCode(500, "Error when looking for a customer by ID");
             }
         }
 
@@ -85,11 +85,11 @@ namespace PetShopAppWebApi.Controllers
                 }
 
                 _customerService.CreateCustomer(customer);
-                return StatusCode(201, "Owner is created.");
+                return StatusCode(201, "Customer is created.");
             }
             catch (System.Exception)
             {
-                return StatusCode(500, "Error when creating owner");
+                return StatusCode(500, "Error when creating customer");
             }
         }
 
@@ -104,11 +104,11 @@ namespace PetShopAppWebApi.Controllers
                     return BadRequest("ID Error! Please check id");
                 }
                 _customerService.UpdateCustomer(customer);
-                return StatusCode(200, "Yes Sir! Owner is updated.");
+                return StatusCode(200, "Customer is updated.");
             }
             catch (System.Exception)
             {
-                return StatusCode(500, "Error when updating owner");
+                return StatusCode(500, "Error when updating customer");
             }
         }
 
@@ -127,7 +127,7 @@ namespace PetShopAppWebApi.Controllers
             }
             catch (System.Exception)
             {
-                return StatusCode(500, "Error when deleting owner");
+                return StatusCode(500, "Error when deleting customer");
             }
         }
     }
