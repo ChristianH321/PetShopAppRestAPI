@@ -86,7 +86,6 @@ namespace PetShop
 
                     case 2:
                         var name = AskQuestion("What is the name of the pet? ");
-                        var type = AskQuestion("What is the type of the pet? ");
                         var previousOwner = AskQuestion("Who was the previous owner of the pet? ");
                         var price = AskQuestion("What is the price of the pet? ");
                         var soldDate = AskQuestion("When was the pet sold? ");

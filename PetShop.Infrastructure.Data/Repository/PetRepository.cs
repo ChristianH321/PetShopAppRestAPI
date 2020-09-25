@@ -9,7 +9,7 @@ namespace PetShop.Infrastructure.Data.Repository
     public class PetRepository: IPetRepository
     {
         static int id = 1;
-        private List<Pet> _pets = new List<Pet>();
+        private static List<Pet> _pets = new List<Pet>();
 
         public Pet Create(Pet pe)
         {

@@ -1,6 +1,7 @@
 ﻿using PetShop.Core.Entities;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 
 namespace PetShop.Infrastructure.Data
@@ -14,7 +15,7 @@ namespace PetShop.Infrastructure.Data
         static int id = 1;
         public static List<Pet> InitDataPet()
         {
-            
+
             var pet1 = new Pet()
             {
                 ID = id++,
@@ -22,7 +23,7 @@ namespace PetShop.Infrastructure.Data
                 PreviousOwner = "Alexander",
                 Price = 1000,
                 SoldDate = DateTime.Now,
-                BirthDate = DateTime.Parse("23.06.2012"),
+                BirthDate = DateTime.Parse("23.06.2012", CultureInfo.GetCultureInfo("da-DK")),
                 Color = "White",
 
             };
@@ -36,7 +37,7 @@ namespace PetShop.Infrastructure.Data
                 PreviousOwner = "Ute",
                 Price = 100,
                 SoldDate = DateTime.Now,
-                BirthDate = DateTime.Parse("20.03.1984"),
+                BirthDate = DateTime.Parse("20.03.1984", CultureInfo.GetCultureInfo("da-DK")),
                 Color = "Gray",
             };
 
@@ -49,7 +50,7 @@ namespace PetShop.Infrastructure.Data
                 PreviousOwner = "Charlotte",
                 Price = 500,
                 SoldDate = DateTime.Now,
-                BirthDate = DateTime.Parse("20.07.1999"),
+                BirthDate = DateTime.Parse("20.07.1999", CultureInfo.GetCultureInfo("da-DK")),
                 Color = "Blonde"
             };
 
@@ -62,7 +63,7 @@ namespace PetShop.Infrastructure.Data
                 PreviousOwner = "Nicole",
                 Price = 50,
                 SoldDate = DateTime.Now,
-                BirthDate = DateTime.Parse("18.12.2000"),
+                BirthDate = DateTime.Parse("18.12.2000", CultureInfo.GetCultureInfo("da-DK")),
                 Color = "Green"
             };
 
@@ -75,7 +76,7 @@ namespace PetShop.Infrastructure.Data
                 PreviousOwner = "Friderikke",
                 Price =2000,
                 SoldDate = DateTime.Now,
-                BirthDate = DateTime.Parse("29.05.2005"),
+                BirthDate = DateTime.Parse("29.05.2005", CultureInfo.GetCultureInfo("da-DK")),
                 Color = "Black"
             };
 
@@ -88,7 +89,7 @@ namespace PetShop.Infrastructure.Data
                 PreviousOwner = "Kasper",
                 Price = 150,
                 SoldDate = DateTime.Now,
-                BirthDate = DateTime.Parse("27.06.2006"),
+                BirthDate = DateTime.Parse("27.06.2006", CultureInfo.GetCultureInfo("da-DK")),
                 Color = "White"
             };
 
@@ -105,7 +106,7 @@ namespace PetShop.Infrastructure.Data
                 ID = id++,
                 FirstName = "Christian",
                 LastName = "Hansen",
-                BirthDateOfCustomer = DateTime.Parse("03.02.1983"),
+                BirthDateOfCustomer = DateTime.Parse("03.02.1983", CultureInfo.GetCultureInfo("da-DK")),
                 Adress = "Gl Vardevej 78M, Esbjerg"
             };
 
@@ -116,7 +117,7 @@ namespace PetShop.Infrastructure.Data
                 ID = id++,
                 FirstName = "Sascha",
                 LastName = "Giessman",
-                BirthDateOfCustomer = DateTime.Parse("24.06.1978"),
+                BirthDateOfCustomer = DateTime.Parse("24.06.1978", CultureInfo.GetCultureInfo("da-DK")),
                 Adress = "Preetzer Strasse 23a, Kiel"
             };
 
@@ -127,7 +128,7 @@ namespace PetShop.Infrastructure.Data
                 ID = id++,
                 FirstName = "Timo",
                 LastName = "Degler",
-                BirthDateOfCustomer = DateTime.Parse("05.12.1991"),
+                BirthDateOfCustomer = DateTime.Parse("05.12.1991", CultureInfo.GetCultureInfo("da-DK")),
                 Adress = "Kongensgade 23, København"
             };
 
@@ -138,7 +139,7 @@ namespace PetShop.Infrastructure.Data
                 ID = id++,
                 FirstName = "Anders",
                 LastName = "Bilgaard",
-                BirthDateOfCustomer = DateTime.Parse("20.03.1965"),
+                BirthDateOfCustomer = DateTime.Parse("20.03.1965", CultureInfo.GetCultureInfo("da-DK")),
                 Adress = "Ribevej 23, Ribe"
             };
 
@@ -149,7 +150,7 @@ namespace PetShop.Infrastructure.Data
                 ID = id++,
                 FirstName = "Kåre",
                 LastName = "Relinggaard",
-                BirthDateOfCustomer = DateTime.Parse("13.07.1955"),
+                BirthDateOfCustomer = DateTime.Parse("13.07.1955", CultureInfo.GetCultureInfo("da-DK")),
                 Adress = "Petersvej 34, Esbjerg"
             };
 
@@ -160,7 +161,7 @@ namespace PetShop.Infrastructure.Data
                 ID = id++,
                 FirstName = "Jens",
                 LastName = "Jeans",
-                BirthDateOfCustomer = DateTime.Parse("20.04.1976"),
+                BirthDateOfCustomer = DateTime.Parse("20.04.1976", CultureInfo.GetCultureInfo("da-DK")),
                 Adress = "Timovej 23, Esbjerg"
             };
 

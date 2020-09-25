@@ -9,7 +9,7 @@ namespace PetShop.Infrastructure.Data.Repository
     public class TypeRepository: ITypeRepository
     {
         static int id = 1;
-        private List<Core.Entities.Type> _types = new List<Core.Entities.Type>();
+        private static List<Core.Entities.Type> _types = new List<Core.Entities.Type>();
 
         public Core.Entities.Type Create(Core.Entities.Type ty)
         {

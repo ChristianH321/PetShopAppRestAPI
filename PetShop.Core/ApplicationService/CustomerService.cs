@@ -58,7 +58,7 @@ namespace PetShop.Core.ApplicationService
         public Customer UpdateCustomer(Customer customerUpdate)
         {
             var customer = FindCustomerById(customerUpdate.ID);
-            customer.FirstName = customerUpdate.LastName;
+            customer.FirstName = customerUpdate.FirstName;
             customer.LastName = customerUpdate.LastName;
             customer.BirthDateOfCustomer = customerUpdate.BirthDateOfCustomer;
             customer.Adress = customerUpdate.Adress;

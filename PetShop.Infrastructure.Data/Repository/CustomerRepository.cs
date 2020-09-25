@@ -9,7 +9,7 @@ namespace PetShop.Infrastructure.Data.Repository
     public class CustomerRepository: ICustomerRepository
     {
         static int id = 1;
-        private List<Customer> _customers = new List<Customer>();
+        private static List<Customer> _customers = new List<Customer>();
 
         public Customer Create(Customer cu)
         {
