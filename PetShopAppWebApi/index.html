@@ -1,0 +1,113 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>PetShop</title>
+</head>
+<body>
+
+    <style>
+        body {
+            background-color: lightblue;
+            height: 100%;
+            width: 100%;
+        }
+
+        #main {
+            color: blue;
+        }
+
+        .food {
+            color: green;
+        }
+
+        .red-color {
+            color: red;
+        }
+    </style>
+
+    <form action="#" onsubmit="CreatePet(event)">
+
+        <label for="name">Id of Pet:</label><br>
+        <input type="number" id="id" name="id" value=""><br>
+
+        <label for="name">Name of Pet:</label><br>
+        <input type="text" id="name" name="name" value=""><br>
+
+        <label for="birthdate">Birthdate of Pet:</label><br>
+        <input type="date" id="birthdate" name="birthdate" value=""><br><br>
+
+        <label for="solddate">Solddate of Pet:</label><br>
+        <input type="date" id="solddate" name="solddate" value=""><br><br>
+
+        <label for="color">Color of Pet</label><br>
+        <input type="text" id="color" name="color" value=""><br><br>
+
+        <label for="previousowner">Previous Owner</label><br>
+        <input type="text" id="previousowner" name="previousowner" value=""><br><br>
+
+        <label for="price">Price of Pet</label><br>
+        <input type="number" id="price" name="price" value=""><br><br>
+
+        <input type="submit" value="Submit">
+    </form>
+
+    <div id="main">....loading.....</div>
+
+
+    <button onclick="loadData()">Click to show Pet</button>
+
+    <script>
+        function CreatePet(event) {
+            event.preventDefault()
+            let ID = document.getElementById("id").value;
+            let name = document.getElementById("name").value;
+            let birthDate = +document.getElementById("birthdate").value;
+            let soldDate = document.getElementById("solddate").value;
+            let color = +document.getElementById("color").value;
+            let previousOwner = +document.getElementById("previousowner").value;
+            let price = +document.getElementById("price").value;
+            let pe = {
+                Id: ID,
+                Name: name,
+                BirthDate: birthDate,
+                SoldDate: soldDate,
+                Color: color,
+                PreviousOwner: previousOwner,
+                Price: price
+
+            }
+
+            fetch("https://localhost:44341/api/pets", {
+                method: "POST",
+                body: JSON.stringify(pe)
+            }).then(res => {
+                console.log("Request complete! response:", res);
+            }).catch(err => {
+                console.error(err);
+            });
+        }
+
+        function loadData() {
+            fetch('https://localhost:44341/api/pets')
+                .then(response => response.json())
+                .then(pets => {
+                    console.log(pets);
+                    let datatags = "";
+                    pets.forEach(pe => {
+                        datatags += "<h1>" + pe.ID + "</h1>"
+                        datatags += "<h1>" + pe.name + "</h1>"
+                        datatags += "<h1>" + pe.birthDate + "</h1>"
+                        datatags += "<h1>" + pe.soldDate + "</h1>"
+                        datatags += "<h1>" + pe.color + "</h1>"
+                        datatags += "<h1>" + pe.previousOwner + "</h1>"
+                        datatags += "<h1>" + pe.price + "</h1>"
+                    })
+                    document.getElementById("main").innerHTML = datatags;
+                })
+
+        }
+
+    </script>
+</body>
+</html>
