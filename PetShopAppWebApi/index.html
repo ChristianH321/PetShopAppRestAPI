@@ -6,6 +6,9 @@
 </head>
 <body>
 
+    
+
+
     <style>
         body {
             background-color: lightblue;
@@ -27,9 +30,6 @@
     </style>
 
     <form action="#" onsubmit="CreatePet(event)">
-
-        <label for="name">Id of Pet:</label><br>
-        <input type="number" id="id" name="id" value=""><br>
 
         <label for="name">Name of Pet:</label><br>
         <input type="text" id="name" name="name" value=""><br>
@@ -58,17 +58,22 @@
     <button onclick="loadData()">Click to show Pet</button>
 
     <script>
+
+        headers: {
+            'Accept'; 'application/json, text/plain, */*',
+                'Content-Type'; 'application/json'
+        };
+
+
         function CreatePet(event) {
             event.preventDefault()
-            let ID = document.getElementById("id").value;
             let name = document.getElementById("name").value;
             let birthDate = +document.getElementById("birthdate").value;
             let soldDate = document.getElementById("solddate").value;
             let color = +document.getElementById("color").value;
             let previousOwner = +document.getElementById("previousowner").value;
             let price = +document.getElementById("price").value;
-            let pe = {
-                Id: ID,
+            let pet = {
                 Name: name,
                 BirthDate: birthDate,
                 SoldDate: soldDate,
@@ -80,7 +85,7 @@
 
             fetch("https://localhost:44341/api/pets", {
                 method: "POST",
-                body: JSON.stringify(pe)
+                body: JSON.stringify(pet)
             }).then(res => {
                 console.log("Request complete! response:", res);
             }).catch(err => {
@@ -91,17 +96,16 @@
         function loadData() {
             fetch('https://localhost:44341/api/pets')
                 .then(response => response.json())
-                .then(pets => {
-                    console.log(pets);
+                .then(_pets => {
+                    console.log(_pets);
                     let datatags = "";
-                    pets.forEach(pe => {
-                        datatags += "<h1>" + pe.ID + "</h1>"
-                        datatags += "<h1>" + pe.name + "</h1>"
-                        datatags += "<h1>" + pe.birthDate + "</h1>"
-                        datatags += "<h1>" + pe.soldDate + "</h1>"
-                        datatags += "<h1>" + pe.color + "</h1>"
-                        datatags += "<h1>" + pe.previousOwner + "</h1>"
-                        datatags += "<h1>" + pe.price + "</h1>"
+                    pets.forEach(pet => {
+                        datatags += "<h1>" + pet.name + "</h1>"
+                        datatags += "<h1>" + pet.birthDate + "</h1>"
+                        datatags += "<h1>" + pet.soldDate + "</h1>"
+                        datatags += "<h1>" + pet.color + "</h1>"
+                        datatags += "<h1>" + pet.previousOwner + "</h1>"
+                        datatags += "<h1>" + pet.price + "</h1>"
                     })
                     document.getElementById("main").innerHTML = datatags;
                 })

@@ -1,8 +1,11 @@
-﻿using PetShop.Core.Entities;
+﻿using Microsoft.Azure.AppService.ApiApps.Service;
+using PetShop.Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
+using TodoApiAuthentication;
+using ToDoApiAuthentication;
 
 namespace PetShop.Infrastructure.Data
 {
@@ -98,6 +101,7 @@ namespace PetShop.Infrastructure.Data
             return (pets);
             
         }
+       
 
         public static List<Customer> InitDataCustomer()
         {
@@ -107,7 +111,8 @@ namespace PetShop.Infrastructure.Data
                 FirstName = "Christian",
                 LastName = "Hansen",
                 BirthDateOfCustomer = DateTime.Parse("03.02.1983", CultureInfo.GetCultureInfo("da-DK")),
-                Adress = "Gl Vardevej 78M, Esbjerg"
+                Adress = "Gl Vardevej 78M, Esbjerg",
+
             };
 
             customers.Add(customer1);
@@ -118,7 +123,8 @@ namespace PetShop.Infrastructure.Data
                 FirstName = "Sascha",
                 LastName = "Giessman",
                 BirthDateOfCustomer = DateTime.Parse("24.06.1978", CultureInfo.GetCultureInfo("da-DK")),
-                Adress = "Preetzer Strasse 23a, Kiel"
+                Adress = "Preetzer Strasse 23a, Kiel",
+
             };
 
             customers.Add(customer2);
@@ -129,7 +135,8 @@ namespace PetShop.Infrastructure.Data
                 FirstName = "Timo",
                 LastName = "Degler",
                 BirthDateOfCustomer = DateTime.Parse("05.12.1991", CultureInfo.GetCultureInfo("da-DK")),
-                Adress = "Kongensgade 23, København"
+                Adress = "Kongensgade 23, København",
+               
             };
 
             customers.Add(customer3);
@@ -140,7 +147,8 @@ namespace PetShop.Infrastructure.Data
                 FirstName = "Anders",
                 LastName = "Bilgaard",
                 BirthDateOfCustomer = DateTime.Parse("20.03.1965", CultureInfo.GetCultureInfo("da-DK")),
-                Adress = "Ribevej 23, Ribe"
+                Adress = "Ribevej 23, Ribe",
+                
             };
 
             customers.Add(customer4);
@@ -151,7 +159,8 @@ namespace PetShop.Infrastructure.Data
                 FirstName = "Kåre",
                 LastName = "Relinggaard",
                 BirthDateOfCustomer = DateTime.Parse("13.07.1955", CultureInfo.GetCultureInfo("da-DK")),
-                Adress = "Petersvej 34, Esbjerg"
+                Adress = "Petersvej 34, Esbjerg",
+               
             };
 
             customers.Add(customer5);
@@ -162,7 +171,8 @@ namespace PetShop.Infrastructure.Data
                 FirstName = "Jens",
                 LastName = "Jeans",
                 BirthDateOfCustomer = DateTime.Parse("20.04.1976", CultureInfo.GetCultureInfo("da-DK")),
-                Adress = "Timovej 23, Esbjerg"
+                Adress = "Timovej 23, Esbjerg",
+                
             };
 
             customers.Add(customer6);

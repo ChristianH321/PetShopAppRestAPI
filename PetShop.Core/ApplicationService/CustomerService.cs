@@ -2,6 +2,7 @@
 using PetShop.Core.Entities;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 
@@ -11,6 +12,7 @@ namespace PetShop.Core.ApplicationService
     {
 
         private ICustomerRepository _customerRepo;
+        public DbSet<Customer> Users { get; set; }
 
         public CustomerService(ICustomerRepository perReposit)
         {
