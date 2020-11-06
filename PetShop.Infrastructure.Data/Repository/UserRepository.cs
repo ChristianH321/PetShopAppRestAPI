@@ -1,7 +1,9 @@
-﻿using PetShop.Core.DomainService;
+﻿using Microsoft.EntityFrameworkCore;
+using PetShop.Core.DomainService;
 using PetShop.Core.Entities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace PetShop.Infrastructure.Data.Repository
