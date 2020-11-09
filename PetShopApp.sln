@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetShop.Infrastructure.Data
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetShopAppWebApi", "PetShopAppWebApi\PetShopAppWebApi.csproj", "{804035AB-6547-4A26-9A70-99A7893399FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoApiAuthentication", "ToDoApiAuthentication\ToDoApiAuthentication.csproj", "{849041FE-E715-4A5E-A01C-F142663C4630}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDoApiAuthentication", "ToDoApiAuthentication\ToDoApiAuthentication.csproj", "{849041FE-E715-4A5E-A01C-F142663C4630}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
