@@ -25,16 +25,18 @@ namespace PetShopAppWebApi
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
+            Environment = env;
         }
 
         public IConfiguration Configuration { get; }
+        public IWebHostEnvironment Environment { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         [Obsolete]
-        public void ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services, IWebHostEnvironment env)
         {
             services.AddScoped<IPetRepository, PetRepository>();
             services.AddScoped<IPetService, PetService>();
@@ -82,8 +84,16 @@ namespace PetShopAppWebApi
                 };
             });
 
-            // In-memory database:
-            services.AddDbContext<TodoContext>(opt => opt.UseInMemoryDatabase("TodoList"));
+            if (Environment.IsDevelopment())
+            {
+                // In-memory database:
+                services.AddDbContext<TodoContext>(opt => opt.UseInMemoryDatabase("TodoList"));
+            }
+            else
+            {
+                //Azure SQL Database
+                services.AddDbContext<TodoContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("defaultConnection")));
+            }
 
             // Register repositories for dependency injection
             services.AddScoped<IRepository<TodoItem>, TodoItemRepository>();
