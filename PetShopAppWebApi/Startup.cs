@@ -1,17 +1,12 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using PetShop.Core.ApplicationService;
@@ -19,7 +14,6 @@ using PetShop.Core.DomainService;
 using PetShop.Core.Entities;
 using PetShop.Infrastructure.Data;
 using PetShop.Infrastructure.Data.Repository;
-using ToDoApiAuthentication;
 
 namespace PetShopAppWebApi
 {
@@ -86,21 +80,43 @@ namespace PetShopAppWebApi
 
             if (Environment.IsDevelopment())
             {
-                // In-memory database:
-                services.AddDbContext<TodoContext>(opt => opt.UseInMemoryDatabase("TodoList"));
+                // SqLite database:
+                services.AddDbContext<TodoContext>(opt =>
+                    opt.UseSqlite("Data Source=TodoDb.db"));
+                // Register SqLite database initializer for dependency injection.
+                services.AddTransient<IDbInitializer, SqLiteDbInitializer>();
             }
             else
             {
-                //Azure SQL Database
-                services.AddDbContext<TodoContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("defaultConnection")));
+                // Azure SQL database:
+                services.AddDbContext<TodoContext>(opt =>
+                         opt.UseSqlServer(Configuration.GetConnectionString("defaultConnection")));
+                // Register SQL Server database initializer for dependency injection.
+                services.AddTransient<IDbInitializer, SqlServerDbInitializer>();
             }
 
             // Register repositories for dependency injection
             services.AddScoped<IRepository<TodoItem>, TodoItemRepository>();
             services.AddScoped<IRepository<User>, UserRepository>();
 
-            // Register database initializer
-            services.AddTransient<IDbInitializer, DbInitializer>();
+            //Register the Swagger generator using Swashbuckle.
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "ToDo API",
+                    Description = "A simple example ASP.NET Core Web API"
+                });
+
+                // Set the comments path for the Swagger JSON and UI.
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+            });
+
+            services.AddControllers();
+
 
         }
 
@@ -110,18 +126,34 @@ namespace PetShopAppWebApi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
+            // Initialize the database.
+            using (var scope = app.ApplicationServices.CreateScope())
+            {
+                // Initialize the database
+                var services = scope.ServiceProvider;
+                var dbContext = services.GetService<TodoContext>();
+                var dbInitializer = services.GetService<IDbInitializer>();
+                dbInitializer.Initialize(dbContext);
+            }
+
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+
+            // Enable middleware to serve SwaggerUI, specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
+
+            // For convenience, I want detailed exception information always. However, this statement should
+            // be removed, when the application is released.
+            app.UseDeveloperExceptionPage();
+
+
             if (env.IsDevelopment())
             {
-                using (var scope = app.ApplicationServices.CreateScope())
-                {
-                    var petrepo = scope.ServiceProvider.GetService<IPetRepository>();
-                    var ownerrepo = scope.ServiceProvider.GetService<ICustomerRepository>();
-                    var petTyperepo = scope.ServiceProvider.GetService<ITypeRepository>();
-                  
-                    petrepo.IntialiseData();
-                    ownerrepo.IntialiseData();
-                    petTyperepo.IntialiseData();
-                }
+                app.UseDeveloperExceptionPage();
             }
 
             app.UseHttpsRedirection();

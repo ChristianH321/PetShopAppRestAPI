@@ -1,10 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PetShop.Core.DomainService;
-using System;
+using PetShop.Core.Entities;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using ToDoApiAuthentication;
 
 namespace PetShop.Infrastructure.Data.Repository
 {

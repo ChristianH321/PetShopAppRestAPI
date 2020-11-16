@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Linq;
-using ToDoApiAuthentication;
 using PetShop.Core.ApplicationService;
 using TodoApiAuthentication;
 using PetShop.Core.Entities;
